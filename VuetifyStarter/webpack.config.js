@@ -17,7 +17,7 @@ module.exports = (env) => {
     },
     entry: {
         // The loader will follow all chains of reference from this entry point...
-        main: ['./src/index.ts']
+        main: ['./src/boot.ts']
     },
     output: {
         // ... and emit the built result in this location
