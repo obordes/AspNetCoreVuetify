@@ -7,11 +7,11 @@ let v = new Vue({
     template: `
     <div>
         Name: <input v-model="name" type="text">
-        <hello-component :name="name" :initialEnthusiasm="5" />        
+        <hello-component :name="name" :initialEnthusiasm="2" />        
     </div>
     `,
     data: {
-        name: "World"
+        name: "Everybody"
     },
     components: {
         HelloComponent,

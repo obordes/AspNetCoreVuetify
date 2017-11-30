@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "outDir": "./built/",
     "sourceMap": true,
     "strict": true,
     "module": "es2015",
@@ -7,5 +8,9 @@
     "target": "es5",
     "experimentalDecorators": true
   },
+  "include": [
+    "./src/**/*"
+  ],
   "exclude": [ "bin", "node_modules" ]
+
 }

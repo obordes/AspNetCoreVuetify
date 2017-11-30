@@ -1,13 +1,31 @@
 var path = require('path')
 var webpack = require('webpack')
+//const ExtractTextPlugin = require('extract-text-webpack-plugin');
+//const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
 const bundleOutputDir = './wwwroot/dist'; // './dist';
 
-module.exports = {
-    entry: './src/index.ts',
+module.exports = (env) => {
+    const isDevBuild = !(env && env.prod);
+
+    return [{
+    resolve: {
+        // For modules referenced with no filename extension, Webpack will consider these extensions
+        extensions: ['.ts', '.js', '.vue', '.json'],
+        alias: {
+            'vue$': 'vue/dist/vue.esm.js'
+        }
+    },
+    entry: {
+        // The loader will follow all chains of reference from this entry point...
+        main: ['./src/index.ts']
+    },
     output: {
+        // ... and emit the built result in this location
         path: path.resolve(__dirname, bundleOutputDir),
-        publicPath: '/dist/',
-        filename: 'build.js'
+        filename: '[name].js',
+
+        // Since UseWebpackDevMiddleware needs to know which incoming requests to intercept, make sure you've specified a publicPath value on your output
+        publicPath: '/dist/'
     },
     module: {
         rules: [
@@ -42,12 +60,6 @@ module.exports = {
             }
         ]
     },
-    resolve: {
-        extensions: ['.ts', '.js', '.vue', '.json'],
-        alias: {
-          'vue$': 'vue/dist/vue.esm.js'
-        }
-    },
     devServer: {
         historyApiFallback: true,
         noInfo: true
@@ -55,26 +67,51 @@ module.exports = {
     performance: {
         hints: false
     },
-    devtool: '#eval-source-map'
-}
+    devtool: '#eval-source-map',
+        plugins: [
+            new webpack.DefinePlugin({
+                'process.env': {
+                    NODE_ENV: JSON.stringify(isDevBuild ? 'development' : 'production')
+                }
+            }),
+        ].concat(isDevBuild ? [
+            // Plugins that apply in development builds only
+            new webpack.SourceMapDevToolPlugin({
+                filename: '[file].map', // Remove this line if you prefer inline source maps
+                moduleFilenameTemplate: path.relative(bundleOutputDir, '[resourcePath]') // Point sourcemap entries to the original file locations on disk
+            })
+        ] : [
+            // Plugins that apply in production builds only
+            new webpack.optimize.UglifyJsPlugin({
+                sourceMap: true,
+                compress: {
+                warnings: false
+                }
+            }),
+            new webpack.LoaderOptionsPlugin({
+              minimize: true
+            })
+        ])
+    }];
+};
 
-if (process.env.NODE_ENV === 'production') {
-  module.exports.devtool = '#source-map'
-  // http://vue-loader.vuejs.org/en/workflow/production.html
-  module.exports.plugins = (module.exports.plugins || []).concat([
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      sourceMap: true,
-      compress: {
-        warnings: false
-      }
-    }),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true
-    })
-  ])
-}
+//if (process.env.NODE_ENV === 'production') {
+//  module.exports.devtool = '#source-map'
+//  // http://vue-loader.vuejs.org/en/workflow/production.html
+//  module.exports.plugins = (module.exports.plugins || []).concat([
+//    new webpack.DefinePlugin({
+//      'process.env': {
+//        NODE_ENV: '"production"'
+//      }
+//    }),
+//    new webpack.optimize.UglifyJsPlugin({
+//      sourceMap: true,
+//      compress: {
+//        warnings: false
+//      }
+//    }),
+//    new webpack.LoaderOptionsPlugin({
+//      minimize: true
+//    })
+//  ])
+//}
