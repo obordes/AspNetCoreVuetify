@@ -32,11 +32,11 @@ namespace VuetifyStarter
 			{
 				app.UseDeveloperExceptionPage();
 				//app.UseBrowserLink();
-				app.UseWebpackDevMiddleware();
-				//app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-				//{
-				//	HotModuleReplacement = true
-				//});
+				//app.UseWebpackDevMiddleware();
+				app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
+				{
+					HotModuleReplacement = true
+				});
 			}
 			else
 			{
