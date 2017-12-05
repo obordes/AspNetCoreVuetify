@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="src\store\actions.ts" />
+    <None Remove="src\store\getters.ts" />
+    <None Remove="src\store\mutations.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices" Version="2.0.1" />
   </ItemGroup>
