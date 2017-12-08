@@ -1,6 +1,6 @@
-import { VuexState } from './store';
+import { State } from './State';
 
-export const isAuthenticated = (state: VuexState) => {
-  return state.token !== null
+export const isAuthenticated = (state: State) => {
+  return state.user !== null
 }
 

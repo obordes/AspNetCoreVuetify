@@ -1,7 +1,7 @@
 <!-- src/components/Contacts.vue -->
 <template>
     <div>
-        <h1>{{title}}</h1>
+        <h1></h1>
     </div>
 </template>
 
@@ -20,6 +20,10 @@
         get hello(): string {
             return 'Bienvenue sur ELF';
         }
+
+        mounted() {
+            this.$store.dispatch('setTitle', 'Contacts');
+        };
     }
 </script>
 

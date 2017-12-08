@@ -1,7 +1,7 @@
 <!-- src/components/Dashboard.vue -->
 <template>
     <div>
-        <h1>{{myVariable}} {{hello}}</h1>
+        <h1></h1>
     </div>
 </template>
 
@@ -20,6 +20,10 @@
         get hello(): string {
             return 'ELF dashboard';
         }
+
+        mounted() {
+            this.$store.dispatch('setTitle', 'Home');
+        };
     }
 </script>
 

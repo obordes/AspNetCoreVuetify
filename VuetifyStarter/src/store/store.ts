@@ -1,5 +1,9 @@
 ﻿import Vue from 'vue';
 import Vuex, { ActionContext, GetterTree, ActionTree  } from 'vuex';
+import { State } from './State';
+import { HTTP } from '../helpers/http';
+import * as jwtDecode from 'jwt-decode';
+import * as JwtConstants from '../JwtConstants';
 
 //import * as actions from './actions';
 //import * as mutations from './mutations';
@@ -7,94 +11,67 @@ import Vuex, { ActionContext, GetterTree, ActionTree  } from 'vuex';
 
 Vue.use(Vuex);
 
-/** Model for login credentials. */
-export interface LoginCredentials {
-    Email: string;
-    Password: string;
-}
-
-/** Model for token response. */
-export interface LoginResponse {
-    access_token: string;
-    first_name: string;
-    token_type: string;
-    expires_in: string;
-}
-
-/** The state. */
-export interface VuexState {
-    /** Indicates whether the left navigation drawer is expanded. */
-    DrawerExpanded: boolean;
-    /** Gets or sets logged in user data. */
-    UserData: LoginResponse | null;
-    properties: string[];
-    token: string | null;
-    gid: string;
-    user: object;
-    error: string | null;
-}
-
-//enum DrawerState {
-//    Collapsed,
-//    Expanded
-//}
-
-export default new Vuex.Store<VuexState>({
+export default new Vuex.Store<State>({
     strict: true,
     state: {
-        DrawerExpanded: true,
-        UserData: null,
-        properties: [],
-        token: null,
-        gid: '',
-        user: {},
-        error: null,
+        drawerExpanded: true,
+        user: null,
+        title: ''
     },  
     //getters: getters as <GetterTree<VuexState, VuexState>>,
     getters: {
-        isAuthenticated: (state: VuexState): boolean => {
-            return state.UserData !== null;
+        isAuthenticated: (state: State): boolean => {
+            return state.user !== null;
         },
-        userName: (state: VuexState): string | null => {
-            return state.UserData ? state.UserData.first_name : null;
+        isAdmin: (state: State): boolean => {
+            return state.user !== null && state.user.isAdmin;
+        },
+        userName: (state: State): string | null => {
+            return state.user ? state.user.firstName ? state.user.firstName : state.user.lastName :null;
         }
     },
     mutations: {
-        toggleDrawer: (state: VuexState) => {
-            state.DrawerExpanded = !state.DrawerExpanded;
+        toggleDrawer: (state: State) => {
+            state.drawerExpanded = !state.drawerExpanded;
         },
-        setDrawer: (state: VuexState, payload: boolean) => {
-            state.DrawerExpanded = payload;
+        setDrawer: (state: State, payload: boolean) => {
+            state.drawerExpanded = payload;
         },
-        setUserData: (state: VuexState, response: LoginResponse) => {
-            state.UserData = response;
+        setTitle: (state: State, title: string) => {
+            state.title = title;
         },
-        clearUserData: (state: VuexState) => {
-            state.UserData = null;
-        }
+        setUser: (state: State, token?: string) => {
+            if (token) {
+                let decoded = jwtDecode(token);
+                state.user = {
+                    id:         decoded[JwtConstants.ClaimNameIdentifier],
+                    userName:   decoded[JwtConstants.ClaimSub],
+                    email:      decoded[JwtConstants.ClaimEmail],
+                    lastName:   decoded[JwtConstants.ClaimSurname],
+                    firstName:  decoded[JwtConstants.ClaimGivenName],
+                    token:      token,
+                    isElfStaff: typeof decoded[JwtConstants.ClaimElfStaff] !== 'undefined',
+                    isAdmin:    typeof decoded[JwtConstants.ClaimAdmin] !== 'undefined'
+                };
+            } else {
+                state.user = null;
+            }
+        },
     },
     //actions: actions as ActionTree<VuexState, VuexState>,
     actions: {
-        toggleDrawer: (context: ActionContext<VuexState, VuexState>) => {
+        toggleDrawer: (context: ActionContext<State, State>) => {
             context.commit('toggleDrawer');
         },
-        setDrawer: (context: ActionContext<VuexState, VuexState>, payload: boolean) => {
+        setDrawer: (context: ActionContext<State, State>, payload: boolean) => {
             context.commit('setDrawer', payload);
         },
-        login: (context: ActionContext<VuexState, VuexState>, credentials: LoginCredentials) => {
-            console.log(`login ${credentials.Email}/${credentials.Password}`);
-            let response = {
-                access_token: 'qwertzuiop',
-                first_name: 'Félix',
-                token_type: 'bearer',
-                expires_in: '123456',
-            };
-            setTimeout(() => context.commit('setUserData', response), 1000);
+        setTitle: (context: ActionContext<State, State>, title: string) => {
+            context.commit('setTitle', title);
         },
-        logout: (context: ActionContext<VuexState, VuexState>) => {
-            console.log("logout");
-            context.commit('clearUserData');
-        }
+        setUser: (context: ActionContext<State, State>, token?: string) => {
+            context.commit('setUser', token);
+        },
     }
 });
 

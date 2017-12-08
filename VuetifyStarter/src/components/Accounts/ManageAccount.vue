@@ -1,4 +1,4 @@
-<!-- src/components/Users/Account.vue -->
+<!-- src/components/Accounts/ManageAccount.vue -->
 <template>
     <div>
         <h1>{{title}}</h1>
@@ -9,7 +9,7 @@
     import { Vue, Component, Prop } from "vue-property-decorator";
 
     @Component
-    export default class AccountComponent extends Vue {
+    export default class ManageAccountComponent extends Vue {
         //@Prop() name: string;
         title: string = "Manage account";
 

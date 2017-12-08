@@ -3,7 +3,7 @@
         <v-app>
             <v-toolbar app color="brown" clipped-left fixed dense dark>
                 <v-toolbar-side-icon @click.stop="toggleDrawer"></v-toolbar-side-icon>
-                <v-toolbar-title>ELF CRM</v-toolbar-title>
+                <v-toolbar-title>ELF CRM - {{title}}</v-toolbar-title>
                 <v-spacer></v-spacer>
                 <!-- User management inside a right-side menu -->
                 <!--<v-menu bottom down left>
@@ -57,7 +57,7 @@
                     </v-list>
                     <!-- User management menu items -->
                     <v-list dense>
-                        <v-list-tile @click="" to="/Account">
+                        <v-list-tile @click="" to="/Accounts/Manage">
                             <v-list-tile-action>
                                 <v-icon>mode_edit</v-icon>
                             </v-list-tile-action>
@@ -88,7 +88,7 @@
                     </v-list-tile>
                     <v-list-tile @click="" to="/Contacts">
                         <v-list-tile-action>
-                            <v-icon>contact_mail</v-icon>
+                            <v-icon>group</v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>Contacts</v-list-tile-title>
@@ -100,6 +100,22 @@
                         </v-list-tile-action>
                         <v-list-tile-content>
                             <v-list-tile-title>Settings</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile v-if="isAdmin" @click="" to="/Accounts">
+                        <v-list-tile-action>
+                            <v-icon>vpn_key</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>User accounts</v-list-tile-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                    <v-list-tile @click="" to="/Test">
+                        <v-list-tile-action>
+                            <v-icon>build</v-icon>
+                        </v-list-tile-action>
+                        <v-list-tile-content>
+                            <v-list-tile-title>Test</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </v-list>
@@ -148,11 +164,10 @@
         methods: {
             ...mapActions([
                 'toggleDrawer',
-                //'logout',
                 'setDrawer'
             ]),
             logout() {
-                this.$store.dispatch('logout');
+                this.$store.dispatch('setUser');
                 this.$router.push({ path: '/Login' })
             }
         },
@@ -163,14 +178,22 @@
             isAuthenticated(): boolean {
                 return this.$store.getters.isAuthenticated;
             },
+            isAdmin(): boolean {
+                return this.$store.getters.isAdmin;
+            },
             expanded: {
                 get: function (): boolean {
-                    return this.$store.state.DrawerExpanded;
+                    return this.$store.state.drawerExpanded;
                 },
                 set: function (value: boolean): void {
                     this.$store.dispatch('setDrawer', value);
                     //this.setDrawer(value);
                 }
+            },
+            title: {
+                get: function (): string {
+                    return this.$store.state.title;
+                },
             }
         },
         components: {

@@ -5,7 +5,9 @@
     "module": "es2015",
     "moduleResolution": "node",
     "target": "es5",
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "lib": ["dom", "es2015"]
   },
   "exclude": [ "bin", "node_modules" ]
 }

@@ -1,40 +1,45 @@
 <!-- src/components/Hello.vue -->
 <template>
     <div>
-        <div class="greeting">Hello w/o decorator {{name}}{{exclamationMarks}}</div>
+        <div class="greeting">Hello decorator {{name}}</div>
         <button @click="decrement">-</button>
         <button @click="increment">+</button>
     </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+    import { Vue, Component, Prop } from "vue-property-decorator";
 
-export default Vue.extend({
-    props: ['name', 'initialEnthusiasm'],
-    data() {
-        return {
-            enthusiasm: this.initialEnthusiasm,
-        }
-    },
-    methods: {
-        increment() { this.enthusiasm++; },
-        decrement() {
-            if (this.enthusiasm > 1) {
-                this.enthusiasm--;
-            }
-        },
-    },
-    computed: {
-        exclamationMarks(): string {
+    @Component
+    export default class HelloComponent extends Vue {
+        @Prop() initialEnthusiasm: number;
+
+        enthusiasm: number = this.initialEnthusiasm;
+        users: IUser[] = [];
+
+        // computed
+        get exclamationMarks() {
             return Array(this.enthusiasm + 1).join('!');
-        }
+        };
+
+        // methods
+        increment(): void {
+            this.enthusiasm++;
+        };
+
+        decrement(): void {
+            if (this.enthusiasm > 1) 
+                this.enthusiasm++;
+        };
+
+        mounted() {
+            console.log('mounted');
+        };
     }
-});
 </script>
 
 <style>
-.greeting {
-    font-size: 20px;
-}
+    .greeting {
+        font-size: 20px;
+    }
 </style>

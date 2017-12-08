@@ -1,14 +1,14 @@
 import * as types from './mutation-types';
 
-import { VuexState } from './store';
+import { State } from './State';
 
 export default {
-    [types.TOGGLE_DRAWER](state: VuexState) {
-        state.DrawerExpanded = !state.DrawerExpanded;
+    [types.TOGGLE_DRAWER](state: State) {
+        state.drawerExpanded = !state.drawerExpanded;
     },
 
-    [types.SET_DRAWER](state: VuexState, data: boolean) {
-        state.DrawerExpanded = data;
+    [types.SET_DRAWER](state: State, data: boolean) {
+        state.drawerExpanded = data;
     },
 
     //[types.SET_DATA](state: VuexState, data: any) {
@@ -21,8 +21,8 @@ export default {
     //    state.user = data;
     //},
 
-    [types.LOGIN](state: VuexState, data: any) {
-        state.token = data.accessToken;
+    [types.LOGIN](state: State, data: any) {
+        //state.token = data.accessToken;
     },
 
     //[types.LOGOUT](state: VuexState) {
