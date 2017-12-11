@@ -57,12 +57,12 @@
                     </v-list>
                     <!-- User management menu items -->
                     <v-list dense>
-                        <v-list-tile @click="" to="/Accounts/Manage">
+                        <v-list-tile @click="" to="/Accounts/ChangePassword">
                             <v-list-tile-action>
                                 <v-icon>mode_edit</v-icon>
                             </v-list-tile-action>
                             <v-list-tile-content>
-                                <v-list-tile-title>Manage account</v-list-tile-title>
+                                <v-list-tile-title>Change password</v-list-tile-title>
                             </v-list-tile-content>
                         </v-list-tile>
                         <v-list-tile @click="logout">

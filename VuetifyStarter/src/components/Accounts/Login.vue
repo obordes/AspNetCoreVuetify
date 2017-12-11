@@ -120,13 +120,13 @@
                         //    this.$store.commit('setUser', response.data.token);
                         //}, 1000);
                     }
-                } catch (e) {
-                    if (e.response.status === 400)
-                        this.errorMessage = e.response.data;
-                    else if (e.response.status === 404)
+                } catch (error) {
+                    if (error.response.status === 400)
+                        this.errorMessage = error.response.data;
+                    else if (error.response.status === 404)
                         this.errorMessage = "Server inaccessible.";
                     else
-                        this.errorMessage = e;
+                        this.errorMessage = error.response.data;
                     this.submitting = false;
                     this.alertVisible = true;
                     this.$store.commit('setUser');

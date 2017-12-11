@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import RouterGuard from './RouterGuard';
 
 import Login from '../components/Accounts/Login.vue';
-import ManageAccount from '../components/Accounts/ManageAccount.vue';
+import ChangePassword from '../components/Accounts/ChangePassword.vue';
 import AccountList from '../components/Accounts/AccountList.vue';
 
 import Dashboard from '../components/Dashboard.vue';
@@ -19,7 +19,7 @@ export default new VueRouter({
     linkActiveClass: 'active',
     routes: [
         { path: '/Login', name: 'Login', component: Login, beforeEnter: RouterGuard.requireGuest },
-        { path: '/Accounts/Manage', name: 'Manage account', component: ManageAccount, beforeEnter: RouterGuard.requireUser },
+        { path: '/Accounts/ChangePassword', name: 'Change password', component: ChangePassword, beforeEnter: RouterGuard.requireUser },
         { path: '/Accounts', name: 'Manage accounts', component: AccountList, beforeEnter: RouterGuard.requireUser },
 
         { path: '/', name: 'Dashboard', component: Dashboard, beforeEnter: RouterGuard.requireUser },

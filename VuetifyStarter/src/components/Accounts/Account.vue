@@ -58,7 +58,6 @@
         alertVisible: boolean = false;
         errorMessage: string = '';
         errors: Errors = new Errors();
-
         lastNameRules: [(v: string) => true | string] = [
             this.required,
             (v: string) => this.maxLength(v, 40),
