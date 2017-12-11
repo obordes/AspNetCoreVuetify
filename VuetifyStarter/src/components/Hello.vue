@@ -32,6 +32,9 @@
                 this.enthusiasm++;
         };
 
+        created() {
+            console.log("created");
+        }
         mounted() {
             console.log('mounted');
         };

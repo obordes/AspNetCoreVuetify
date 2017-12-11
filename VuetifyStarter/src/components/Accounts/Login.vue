@@ -8,7 +8,7 @@
                 <v-container>
                     <v-layout wrap>
                         <v-flex xs12>
-                            <v-text-field label="Email" v-model="email" required :rules="emailRules" :counter="50"></v-text-field>
+                            <v-text-field label="Email" v-model="email" required :rules="emailRules"></v-text-field>
                         </v-flex>
                         <v-flex xs12>
                             <v-text-field label="Password" v-model="password" required min="6" :rules="passwordRules"
@@ -77,7 +77,7 @@
                 emailRules: [
                     (v: string) => !!v || 'E-mail is required',
                     (v: string) => v.length <= 50 || 'Max 50 characters',
-                    (v: string) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'E-mail is not valid'
+                    (v: string) => /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(v) || 'E-mail is not valid'
                 ],
                 password: '',
                 passwordRules: [

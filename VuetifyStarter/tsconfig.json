@@ -6,6 +6,7 @@
     "moduleResolution": "node",
     "target": "es5",
     "experimentalDecorators": true,
+    "strictNullChecks":  true,
     "suppressImplicitAnyIndexErrors": true,
     "lib": ["dom", "es2015"]
   },
